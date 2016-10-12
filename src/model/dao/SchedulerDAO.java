@@ -21,6 +21,7 @@ public class SchedulerDAO extends DatabaseFactory{
 		}
 		//Set scheduler for each day of weeks
 		for(int day=0; day<7; day++){
+			System.out.println("DAY " + day);
 			//Get all task users can do in this week 
 			ArrayList<Scheduler> schedulers = getScheduler(week, day);
 			//Divice the task
@@ -28,8 +29,8 @@ public class SchedulerDAO extends DatabaseFactory{
 				int m = i;
 				//choose the user who is available for the task
 				for(int j= i+1; j<schedulers.size(); j++){
-					if( schedulers.get(j).getTaskId().equals(schedulers.get(i).getTaskId()) &&
-							userAmount.get(schedulers.get(j).getUsername()) < userAmount.get(schedulers.get(j).getUsername())){
+					if( schedulers.get(j).getTaskId().equals(schedulers.get(m).getTaskId()) &&
+						userAmount.get(schedulers.get(j).getUsername()) < userAmount.get(schedulers.get(m).getUsername())){
 						m = j;
 					}
 				}
@@ -48,10 +49,16 @@ public class SchedulerDAO extends DatabaseFactory{
 				}
 			}
 		}
+		for(int i=0; i<users.size(); i++){
+			System.out.println(users.get(i).getFullname() + ": " +userAmount.get(users.get(i).getUsername()));
+		}
 		return false;
 	}
 	
 	private boolean addScheduler(String taskId, int workTimeId) {
+		
+		System.out.println(taskId + "--->" + workTimeId);
+		/*
 		String query = "INSERT INTO `scheduler` (`worktimeId`, `taskId`) VALUES (?, ?);";
 		try {
 			preparedStatement = connection.prepareStatement(query);
@@ -69,26 +76,12 @@ public class SchedulerDAO extends DatabaseFactory{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		}
+		}*/
+		return false;
 	}
 	public static void main(String[] args) {
-		ArrayList<Integer> arr = new ArrayList<>();
-		arr.add(00);
-		arr.add(11);
-		arr.add(22);
-		arr.add(33);
-		arr.add(44);
-		arr.add(55);
-		for(int i=0; i<arr.size() ;i++){
-			if(i==3) {
-				arr.remove(i);
-				System.out.println(arr.get(3));
-			}
-			
-		}
-		for(int i=0; i<arr.size() ;i++){
-			System.out.println(arr.size() + " " + i + " " + arr.get(i));
-		}
+		SchedulerDAO schedulerDAO = new SchedulerDAO();
+		schedulerDAO.createScheduler(1);
 	}
 	public ArrayList<Scheduler> getScheduler(int week, int day){
 		ArrayList<Scheduler> schedulers = new ArrayList<>();
