@@ -12,27 +12,83 @@ import model.bean.User;
 import model.bean.WorkTime;
 
 public class SchedulerDAO extends DatabaseFactory{
-	private boolean isAbility(String username, String taskId){
-		return false;
-	}
 	public boolean createScheduler(int week){
+		//Set task amount for each user
 		ArrayList<User> users = new UserDAO().getUserList();
 		Map<String, Integer> userAmount = new HashMap<String, Integer>();
 		for(int i=0; i<users.size(); i++){
 			userAmount.put(users.get(i).getUsername(), 0);
 		}
+		//Set scheduler for each day of weeks
 		for(int day=0; day<7; day++){
+			//Get all task users can do in this week 
 			ArrayList<Scheduler> schedulers = getScheduler(week, day);
-			for(int i=0; i<schedulers.size(); i++){
-				
+			//Divice the task
+			for(int i=0; i<schedulers.size();){
+				int m = i;
+				//choose the user who is available for the task
+				for(int j= i+1; j<schedulers.size(); j++){
+					if( schedulers.get(j).getTaskId().equals(schedulers.get(i).getTaskId()) &&
+							userAmount.get(schedulers.get(j).getUsername()) < userAmount.get(schedulers.get(j).getUsername())){
+						m = j;
+					}
+				}
+				// make scheduler
+				addScheduler(schedulers.get(m).getTaskId(), schedulers.get(m).getWorkTimeId());
+				String username = schedulers.get(m).getUsername();
+				//increase task amount for that user
+				userAmount.put(username, userAmount.get(username) + schedulers.get(m).getTaskAmount());
+				String taskId = schedulers.get(m).getTaskId();
+				// remove task that is diviced;
+				for(int j= 0; j<schedulers.size(); j++){
+					if( schedulers.get(j).getTaskId().equals(taskId) ){
+						schedulers.remove(j);
+						j--;
+					}
+				}
 			}
 		}
 		return false;
 	}
+	
+	private boolean addScheduler(String taskId, int workTimeId) {
+		String query = "INSERT INTO `scheduler` (`worktimeId`, `taskId`) VALUES (?, ?);";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, workTimeId);
+			preparedStatement.setString(2, taskId);
+			if(preparedStatement.execute()){
+				preparedStatement.close();
+				return true;
+			}
+			else{
+				preparedStatement.close();
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	public static void main(String[] args) {
-		Map<String, Integer> aMap = new HashMap<String, Integer>();
-		aMap.put("a" , 15);
-		System.out.println(aMap.get("a"));
+		ArrayList<Integer> arr = new ArrayList<>();
+		arr.add(00);
+		arr.add(11);
+		arr.add(22);
+		arr.add(33);
+		arr.add(44);
+		arr.add(55);
+		for(int i=0; i<arr.size() ;i++){
+			if(i==3) {
+				arr.remove(i);
+				System.out.println(arr.get(3));
+			}
+			
+		}
+		for(int i=0; i<arr.size() ;i++){
+			System.out.println(arr.size() + " " + i + " " + arr.get(i));
+		}
 	}
 	public ArrayList<Scheduler> getScheduler(int week, int day){
 		ArrayList<Scheduler> schedulers = new ArrayList<>();
