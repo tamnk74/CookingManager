@@ -40,7 +40,7 @@ padding-top: 1px;
 	  <div class="container-fluid" > 
 	    <ul class="nav navbar-nav" >
 	      <li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
-	       <li><a href="CheckLogin">Công việc</a></li> 
+	       <li><a href="Task">Công việc</a></li> 
 	      <li><a href="Account">Tài khoản</a></li>
 	    </ul>
 	    <ul class="nav navbar-nav navbar-right">
