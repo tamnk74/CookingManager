@@ -8,47 +8,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cooking Managerment</title>
 <jsp:include page="_bootstrap.jsp" />
-<style>
-div{
-padding-top: 1px;
-}
- /* Set black background color, white text and some padding */
-    footer {
-      background-color: #2020df;
-      color: white;
-      padding: 15px;
-      text-align: center;
-    }
-    /*                   */
-.nav.navbar-nav li a {
-    color: #ffbf00;
-}
-.nav.navbar-nav li:active,
-.nav.navbar-nav li:focus ,
-.nav.navbar-nav li:hover {
-    background-color: #bf00ff;
-}
-.table-bordered.table-striped tr {
-	height: 50px;
-}
-.table-striped {
-	width: 100%;
-	height: 50px;
-}
-.table-bordered.table-striped table, tr, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-    padding-left: 5px;
-}
 
-</style>
 <script type="text/javascript">
 	
 </script>
 </head>
 <body>
 <!------------------------------------------- Menu --------------------------------> 
-	<nav class="navbar navbar-inverse" style="background-color: #2020df">
+	<nav class="navbar navbar-inverse " style="background-color: #2020df">
 	  <div class="container-fluid" > 
 	    <ul class="nav navbar-nav" >
 	      <li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
@@ -69,7 +36,7 @@ padding-top: 1px;
   <!------------------------------------------- Left-Menu --------------------------------> 
     <div class="col-sm-3 sidenav">
     <p>OPTION</p>
-    <ul class="nav nav-tabs nav-stacked">
+    <ul class="nav nav-tabs nav-stacked nav-pills">
 	    <li class="active"><a data-toggle="tab" href="#menu1">Tạo tài khoản</a></li>
 	    <li><a data-toggle="tab" href="#menu2">Danh sách Tài khoản</a></li>
   	</ul>
@@ -88,33 +55,27 @@ padding-top: 1px;
 			     	<center><img src="images/avatar.png" class="img-circle" alt="Avartar" width="150" height="100"></center>
 			     	</div>
 		     	</div>
-		     	<br>
-		     	<div class="row">
+		     	<div class="row btn-lg">
 			     	<div class="col-md-2">Username</div>
 			     	<input class="col-md-6" type="password" value=""/>
 		     	</div>
-		     	<br>
-		     	<div class="row">
+		     	<div class="row btn-lg">
 			     	<div class="col-md-2">Fullname</div>
 			     	<input class="col-md-6" type="password" value=""/>
 		     	</div>
-		     	<br>
-		     	<div class="row">
+		     	<div class="row btn-lg">
 			     	<div class="col-md-2">Mật khẩu</div>
 			     	<input class="col-md-6" type="password" value=""/>
 		     	</div>
-		     	<br>
-		     	<div class="row">
+		     	<div class="row btn-lg">
 			     	<div class="col-md-2">Xác nhận mật khẩu</div>
 			     	<input class="col-md-6" type="password" value=""/>
 		     	</div>
-		     	<br>
-		     	<div class="row">
+		     	<div class="row btn-lg">
 			     	<div class="col-md-2">Is administrator</div>
 			     	<input class="col-md-1" type="checkbox" value=""/>
 		     	</div>
-		     	<br>
-		     	<div class="row">
+		     	<div class="row btn-lg">
 			     	<div class="col-md-2"></div>
 			     	<input class="col-md-2" type="submit" value="Submit"/>
 			     	<div class="col-md-1"></div>
@@ -130,8 +91,8 @@ padding-top: 1px;
 	      ArrayList<User> users = (ArrayList<User>)request.getAttribute("users");
 	      if(users != null){
 	      %>
-	      <table class="table-striped">
-	      	<tr>
+	      <table class="table table-striped">
+	      	<tr class="btn-lg">
 	      		<td>ID</td>
 	      		<td>Username</td>
 	      		<td>Fullname</td>
@@ -140,7 +101,7 @@ padding-top: 1px;
 	      	<%
 	      	for(int i=0; i<users.size(); i++){
 	      	%>
-	      	<tr>
+	      	<tr class="btn-lg">
 	      		<td><%= i+1 %></td>
 	      		<td><%= users.get(i).getUsername()%></td>
 	      		<td><%= users.get(i).getFullname()%></td>
@@ -160,8 +121,8 @@ padding-top: 1px;
   </div>
 </div>
 
-<footer class="container-fluid">
-  <p>Copyright@2016-5S team</p>
+<footer class="alert alert-info" >
+  <center>Copyright@2016-5S team</center>
 </footer>
 </body>
 </html>

@@ -44,12 +44,10 @@ public class CheckLogin extends HttpServlet {
 		String password = request.getParameter("password");
 		User user = userBO.getUser(username, password);
 		if(user != null){
-			ArrayList<Task> tasks = taskBO.getTaskList();
 			session.setAttribute("user", user);
-			request.setAttribute("tasks", tasks);
 			if(user.isAdmin())	{
 				
-				request.getRequestDispatcher("/WEB-INF/ad-task.jsp").forward(request, response);
+				request.getRequestDispatcher("Ad_task").forward(request, response);
 			}
 			else {
 				request.getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);

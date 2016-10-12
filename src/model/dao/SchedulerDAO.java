@@ -109,4 +109,22 @@ public class SchedulerDAO extends DatabaseFactory{
 			return null;
 		}
 	}
+
+	public int getNextWeek() {
+		String query = "SELECT MAX(worktime.week) as CurrentWeek from scheduler LEFT JOIN worktime ON scheduler.worktimeId = worktime.worktimeId";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()){
+				preparedStatement.close();
+				return rs.getInt("CurrentWeek")+1;
+			}
+			else {
+				preparedStatement.close();
+				return 1;
+			}
+		} catch (SQLException e) {
+			return 1;
+		}
+	}
 }
