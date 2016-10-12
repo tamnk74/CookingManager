@@ -1,3 +1,6 @@
+<%@page import="model.bean.User"%>
+<%@page import="model.bean.Task"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -42,11 +45,20 @@ padding-top: 1px;
 }
 </style>
 <script type="text/javascript">
-	
+	function setVal(taskId, taskName, taskAmount){
+		document.getElementById("taskId").value=taskId;
+		document.getElementById("taskName").value=taskName;
+		document.getElementById("taskAmount").value=taskAmount;
+	}
 </script>
 </head>
 <body>
 <!------------------------------------------- Menu --------------------------------> 
+<% 
+
+	User user = (User)session.getAttribute("user");
+	if(user != null){
+%>
 	<nav class="navbar navbar-inverse" style="background-color: #2020df">
 	  <div class="container-fluid" > 
 	    <ul class="nav navbar-nav" >
@@ -56,8 +68,8 @@ padding-top: 1px;
 	      <li><a href="Xeplich">Xếp lịch</a></li>
 	    </ul>
 	    <ul class="nav navbar-nav navbar-right">
-	      <li><a href="#"><span class="glyphicon glyphicon-user"></span>Nguyen Khac Tam</a></li>
-	      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+	      <li><a href="#"><span class="glyphicon glyphicon-user"></span><%=user.getFullname() %></a></li>
+	      <li><a href="Logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
 	    </ul>
 	  </div>
 	</nav>
@@ -83,6 +95,10 @@ padding-top: 1px;
 	    <div id="menu1" class="tab-pane fade in active">
 	      <h3>Danh sách công việc</h3>
 	      <hr>
+	      <%
+	      ArrayList<Task> tasks = (ArrayList<Task>)request.getAttribute("tasks");
+	      if(tasks != null){
+	      %>
 	      <table class="table-striped table-bordered">
 	      	<tr>
 	      		<td>ID</td>
@@ -90,34 +106,57 @@ padding-top: 1px;
 	      		<td>Trọng số</td>
 	      		<td>Actions</td>
 	      	</tr>
+	      	<% 
+	      	for(int i=0; i<tasks.size(); i++){
+	      	%>
 	      	<tr>
-	      		<td>1</td>
-	      		<td>Đi chợ</td>
-	      		<td> 2 </td>
+	      		<td><%= i+1 %></td>
+	      		<td><%= tasks.get(i).getTaskName() %></td>
+	      		<td><%= tasks.get(i).getTaskAmount() %> </td>
 	      		<td>
-	      			<button type="button" class="btn btn-primary btn-sm">Edit</button>
-	      			<button type="button" class="btn btn-primary btn-sm">Delete</button>
+	      			<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick = "setVal('<%=tasks.get(i).getTaskId()%>', '<%=tasks.get(i).getTaskName()%>','<%=tasks.get(i).getTaskAmount()%>')">Edit</button>
+	      			<button type="button" class="btn btn-primary btn-sm" >Delete</button>
 	      		</td>
 	      	</tr>
-	      	<tr>
-	      		<td>1</td>
-	      		<td>Rửa chén</td>
-	      		<td> 2 </td>
-	      		<td>
-	      			<button type="button" class="btn btn-primary btn-sm">Edit</button>
-	      			<button type="button" class="btn btn-primary btn-sm">Delete</button>
-	      		</td>
-	      	</tr>
-	      	<tr>
-	      		<td>1</td>
-	      		<td>Rửa chén</td>
-	      		<td> 2 </td>
-	      		<td>
-	      			<button type="button" class="btn btn-primary btn-sm">Edit</button>
-	      			<button type="button" class="btn btn-primary btn-sm">Delete</button>
-	      		</td>
-	      	</tr>
+	      	<%}} %>
 	      </table>
+	      
+	      <div id="myModal" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
+			
+			    <!-- Modal content-->
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        <h4 class="modal-title">Edit Task</h4>
+			      </div>
+			      <div class="modal-body">
+			      	<form action="UpdateTask" method="post">
+			        <div class="form-group">
+			        	<div class="col-md-3">Task ID</div>
+			        	<input type="text" name="taskId" id="taskId" value="" disable readonly>
+			        </div>
+			         <div class="form-group">
+			        	<div class="col-md-3">Task Name</div>
+			        	<input type="text" name="taskName" id="taskName" value="" required>
+			        </div>
+			         <div class="form-group">
+			        	<div class="col-md-3">Task Amount</div>
+			        	<input type="text" name="taskAmount" id="taskAmount" value="" required>
+			        </div>
+			        <div class="form-group">
+			        	<div class="col-md-3"></div>
+			        	<input type="submit" value="submit"/>
+			        </div>
+			        </form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      </div>
+			    </div>
+			
+			  </div>
+			</div>
 	    </div>
 	    <div id="menu2" class="tab-pane fade">
 	      <h3>Thông tin đăng kí</h3>
@@ -159,7 +198,7 @@ padding-top: 1px;
      
     </div>  </div>
 </div>
-
+<%} %>
 <footer class="container-fluid">
   <p>Copyright@2016-5S team</p>
 </footer>

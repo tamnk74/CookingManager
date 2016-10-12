@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,19 +10,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.bean.Task;
+import model.bean.User;
+import model.bo.TaskBO;
+
 /**
  * Servlet implementation class Ad_task
  */
 @WebServlet("/Ad_task")
 public class Ad_task extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private TaskBO taskBO;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Ad_task() {
         super();
-        // TODO Auto-generated constructor stub
+        taskBO = new TaskBO();
     }
 
 	/**
@@ -31,7 +37,10 @@ public class Ad_task extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		// Kiểm tra quyền hạn.
 		HttpSession session = request.getSession();
-		
+		User user = (User)session.getAttribute("user");
+		if(user == null ) request.getRequestDispatcher("index.jsp").forward(request, response);
+		ArrayList<Task> tasks = taskBO.getTaskList();
+		request.setAttribute("tasks", tasks);
 		// Trả lại các thông số mà người dùng đã nhập
 		request.getRequestDispatcher("/WEB-INF/ad-task.jsp").forward(request, response);
 	}
