@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.bean.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -124,6 +126,10 @@ padding-top: 1px;
 	    <div id="menu2" class="tab-pane fade">
 	      <h3>Thông tin tài khoản</h3>
 	      <hr>
+	      <%
+	      ArrayList<User> users = (ArrayList<User>)request.getAttribute("users");
+	      if(users != null){
+	      %>
 	      <table class="table-striped">
 	      	<tr>
 	      		<td>ID</td>
@@ -131,34 +137,21 @@ padding-top: 1px;
 	      		<td>Fullname</td>
 	      		<td>Actions</td>
 	      	</tr>
+	      	<%
+	      	for(int i=0; i<users.size(); i++){
+	      	%>
 	      	<tr>
-	      		<td>1</td>
-	      		<td>khactam</td>
-	      		<td>Nguyen Khac Tam</td>
+	      		<td><%= i+1 %></td>
+	      		<td><%= users.get(i).getUsername()%></td>
+	      		<td><%= users.get(i).getFullname()%></td>
 	      		<td>
 	      			<button type="button" class="btn btn-primary btn-sm">Edit</button>
 	      			<button type="button" class="btn btn-primary btn-sm">Delete</button>
 	      		</td>
 	      	</tr>
-	      		<tr>
-	      		<td>1</td>
-	      		<td>khactam</td>
-	      		<td>Nguyen Khac Tam</td>
-	      		<td>
-	      			<button type="button" class="btn btn-primary btn-sm">Edit</button>
-	      			<button type="button" class="btn btn-primary btn-sm">Delete</button>
-	      		</td>
-	      	</tr>
-	      		<tr>
-	      		<td>1</td>
-	      		<td>khactam</td>
-	      		<td>Nguyen Khac Tam</td>
-	      		<td>
-	      			<button type="button" class="btn btn-primary btn-sm">Edit</button>
-	      			<button type="button" class="btn btn-primary btn-sm">Delete</button>
-	      		</td>
-	      	</tr>
+	      	<%} %>
 	      </table>
+	      <%} %>
 	    </div>
 	   
 	  </div>
