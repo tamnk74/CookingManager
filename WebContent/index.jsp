@@ -23,11 +23,11 @@
 		</div>
 		<div class="form-group">
 		  <label for="usr"><b>Username</b></label>
-		  <input type="text" class="form-control" placeholder="Enter Username" name="username" id="username" required>
+		  <input type="text" class="form-control" placeholder="Enter Username" name="username" value="admin" required>
 		</div>
 		<div class="form-group">
 		  <label for="pwd">Password:</label>
-		  <input type="password" class="form-control" placeholder="Enter Password" name="password" id="password" required>
+		  <input type="password" class="form-control" placeholder="Enter Password" name="password" value="123456" required>
 		</div>
 		
 		<div class="form-group">
