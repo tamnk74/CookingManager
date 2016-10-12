@@ -10,19 +10,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.bean.User;
+import model.bean.Task;
+import model.bo.TaskBO;
+import model.bo.UserBO;
+
 /**
  * Servlet implementation class CheckLogin
  */
 @WebServlet("/CheckLogin")
 public class CheckLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private UserBO userBO;
+    private TaskBO taskBO;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public CheckLogin() {
         super();
-        // TODO Auto-generated constructor stub
+        userBO = new UserBO();
+        taskBO = new TaskBO();
     }
 
 	/**
@@ -33,9 +40,26 @@ public class CheckLogin extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		// Kiểm tra quyền hạn.
 		HttpSession session = request.getSession();
-		
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		User user = userBO.getUser(username, password);
+		if(user != null){
+			ArrayList<Task> tasks = taskBO.getTaskList();
+			session.setAttribute("user", user);
+			request.setAttribute("tasks", tasks);
+			if(user.isAdmin())	{
+				
+				request.getRequestDispatcher("/WEB-INF/ad-task.jsp").forward(request, response);
+			}
+			else {
+				request.getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
+			}
+		}
+		else{
+			request.setAttribute("message", "Tài khoản không đúng!");
+			request.getRequestDispatcher("index.jsp").forward(request, response);
+		}
 		// Trả lại các thông số mà người dùng đã nhập
-		request.getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
 	}
 
 	/**
