@@ -22,6 +22,7 @@ public class UserDAO extends DatabaseFactory{
 				user.setPassword(rs.getString("password"));
 				user.setFullname(rs.getString("fullName"));
 				user.setAdmin(rs.getBoolean("isAdmin"));
+				user.setAmount(rs.getInt("amount"));
 				users.add(user);
 			}
 			preparedStatement.close();

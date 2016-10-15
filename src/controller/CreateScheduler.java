@@ -10,27 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.bean.Task;
 import model.bean.User;
-import model.bean.Worker;
-import model.bo.TaskBO;
-import model.bo.WorkTimeBO;
+import model.bo.SchedulerBO;
 
 /**
- * Servlet implementation class Ad_task
+ * Servlet implementation class CreateScheduler
  */
-@WebServlet("/Ad_task")
-public class Ad_task extends HttpServlet {
+@WebServlet("/CreateScheduler")
+public class CreateScheduler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private TaskBO taskBO;
-    private WorkTimeBO workTimeBO;
+    private SchedulerBO schedulerBO;   
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Ad_task() {
+    public CreateScheduler() {
         super();
-        taskBO = new TaskBO();
-        workTimeBO = new WorkTimeBO();
+        schedulerBO = new SchedulerBO();
     }
 
 	/**
@@ -43,12 +38,13 @@ public class Ad_task extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		if(user == null ) request.getRequestDispatcher("index.jsp").forward(request, response);
-		ArrayList<Task> tasks = taskBO.getTaskList();
-		ArrayList<Worker> workers = workTimeBO.getRegisterList();
-		request.setAttribute("tasks", tasks);
-		request.setAttribute("workers", workers);
+		
 		// Trả lại các thông số mà người dùng đã nhập
-		request.getRequestDispatcher("/WEB-INF/admin/ad-task.jsp").forward(request, response);
+		int week = schedulerBO.getNextWeek();
+		if(schedulerBO.createScheduler(week)){
+			request.setAttribute("msg", "Tạo lịch thành công!");
+		};
+		request.getRequestDispatcher("Ad_task").forward(request, response);
 	}
 
 	/**

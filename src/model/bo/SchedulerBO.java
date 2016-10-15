@@ -1,5 +1,8 @@
 package model.bo;
 
+import java.util.ArrayList;
+
+import model.bean.UserTask;
 import model.dao.SchedulerDAO;
 
 public class SchedulerBO {
@@ -9,5 +12,14 @@ public class SchedulerBO {
 	}
 	public int getNextWeek() {
 		return schedulerDAO.getNextWeek();
+	}
+	public boolean isCreateChecduler() {
+		return schedulerDAO.isCreateScheduler();
+	}
+	public ArrayList<UserTask> getScheduler() {
+		return schedulerDAO.getScheduler();
+	}
+	public ArrayList<UserTask> getListTaskAmount(){
+		return schedulerDAO.getListTaskAmount();
 	}
 }

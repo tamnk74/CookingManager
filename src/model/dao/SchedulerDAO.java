@@ -9,9 +9,18 @@ import java.util.Map;
 import model.bean.Scheduler;
 import model.bean.Task;
 import model.bean.User;
+import model.bean.UserTask;
 import model.bean.WorkTime;
 
 public class SchedulerDAO extends DatabaseFactory{
+	public boolean isCreateScheduler(){
+		int week = getNextWeek();
+		for(int day=0; day<7; day++){
+			ArrayList<Scheduler> schedulers = getScheduler(week, day);
+			if(schedulers == null || schedulers.isEmpty()) return false;
+		}
+		return true;
+	}
 	public boolean createScheduler(int week){
 		//Set task amount for each user
 		ArrayList<User> users = new UserDAO().getUserList();
@@ -52,13 +61,29 @@ public class SchedulerDAO extends DatabaseFactory{
 		for(int i=0; i<users.size(); i++){
 			System.out.println(users.get(i).getFullname() + ": " +userAmount.get(users.get(i).getUsername()));
 		}
-		return false;
+		if(updateTaskAmount(userAmount, users)) System.out.println("Update thanh cong!");;
+		return true;
 	}
-	
+	private boolean updateTaskAmount(Map<String, Integer> userAmount, ArrayList<User> users){
+		for(int i=0; i<users.size(); i++){
+			String sql = "UPDATE `user` SET `amount` = `amount` + ? WHERE `user`.`username` = ?;" ;
+			try {
+				preparedStatement = connection.prepareStatement(sql);
+				preparedStatement.setInt(1, userAmount.get(users.get(i).getUsername()));
+				preparedStatement.setString(2, users.get(i).getUsername());
+				preparedStatement.execute();
+				preparedStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return true;
+		
+	}
 	private boolean addScheduler(String taskId, int workTimeId) {
 		
 		System.out.println(taskId + "--->" + workTimeId);
-		/*
 		String query = "INSERT INTO `scheduler` (`worktimeId`, `taskId`) VALUES (?, ?);";
 		try {
 			preparedStatement = connection.prepareStatement(query);
@@ -76,13 +101,41 @@ public class SchedulerDAO extends DatabaseFactory{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		}*/
-		return false;
+		}
 	}
 	public static void main(String[] args) {
 		SchedulerDAO schedulerDAO = new SchedulerDAO();
 		schedulerDAO.createScheduler(1);
 	}
+	
+	public ArrayList<UserTask> getScheduler(){
+		ArrayList<UserTask> userTasks = new ArrayList<>();
+		String sql = "SELECT user.username, user.fullname, task.taskId, task.taskName, worktime.day "
+				+ "FROM scheduler LEFT JOIN worktime ON scheduler.worktimeId = worktime.worktimeId "
+				+ "LEFT JOIN user ON user.username = worktime.username "
+				+ "LEFT JOIN task ON task.taskId = scheduler.taskId "
+				+ "WHERE user.isAdmin = 0 ORDER BY worktime.day";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				UserTask userTask = new UserTask();
+				userTask.setUsername(rs.getString("username"));
+				userTask.setTaskId(rs.getString("taskId"));
+				userTask.setFullname(rs.getString("fullname"));
+				userTask.setTaskName(rs.getString("taskName"));
+				userTask.setDay(rs.getInt("day"));
+				userTasks.add(userTask);
+				System.out.println(userTasks.size() + ". " +userTask.getFullname() + ": " + userTask.getTaskName() + " -->" + userTask.getDay());
+			}
+			preparedStatement.close();
+			return userTasks;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public ArrayList<Scheduler> getScheduler(int week, int day){
 		ArrayList<Scheduler> schedulers = new ArrayList<>();
 		String query = "SELECT ability.username, task.taskId, task.taskName, task.taskAmount, worktime.worktimeId, day, worktime.time "
@@ -109,15 +162,16 @@ public class SchedulerDAO extends DatabaseFactory{
 			return null;
 		}
 	}
-
+	//
 	public int getNextWeek() {
 		String query = "SELECT MAX(worktime.week) as CurrentWeek from scheduler LEFT JOIN worktime ON scheduler.worktimeId = worktime.worktimeId";
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			ResultSet rs = preparedStatement.executeQuery();
 			if(rs.next()){
+				int t= rs.getInt("CurrentWeek")+1;
 				preparedStatement.close();
-				return rs.getInt("CurrentWeek")+1;
+				return t;
 			}
 			else {
 				preparedStatement.close();
@@ -126,5 +180,29 @@ public class SchedulerDAO extends DatabaseFactory{
 		} catch (SQLException e) {
 			return 1;
 		}
+	}
+	public ArrayList<UserTask> getListTaskAmount(){
+		ArrayList<UserTask> userTasks = new ArrayList<>();
+		String sql = "SELECT worktime.username, SUM(task.taskAmount) AS Amount "
+				+ "FROM scheduler LEFT JOIN worktime ON worktime.worktimeId = scheduler.worktimeId "
+				+ "LEFT JOIN  task ON task.taskId = scheduler.taskId WHERE worktime.week = ? GROUP BY worktime.username;";
+		try {
+			int week = getNextWeek()-1;
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, week);
+			ResultSet rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				UserTask userTask = new UserTask();
+				userTask.setUsername(rs.getString("username"));
+				userTask.setTaskAmount(rs.getInt("Amount"));
+				userTasks.add(userTask);
+			}
+			preparedStatement.close();
+			return userTasks;
+			
+		} catch (SQLException e) {
+			return null;
+		}
+		
 	}
 }

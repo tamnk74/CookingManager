@@ -39,6 +39,7 @@ public class UpdateTask extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		if(user == null ) request.getRequestDispatcher("index.jsp").forward(request, response);
+		
 		String taskId = request.getParameter("taskId");
 		String taskName = request.getParameter("taskName");
 		int taskAmount = Integer.parseInt(request.getParameter("taskAmount"));
@@ -48,10 +49,8 @@ public class UpdateTask extends HttpServlet {
 		task.setTaskAmount(taskAmount);
 		taskBO.updateTask(task);
 		
-		ArrayList<Task> tasks = taskBO.getTaskList();
-		request.setAttribute("tasks", tasks);
 		// Trả lại các thông số mà người dùng đã nhập
-		request.getRequestDispatcher("/WEB-INF/ad-task.jsp").forward(request, response);
+		request.getRequestDispatcher("Ad_task").forward(request, response);
 	}
 
 	/**

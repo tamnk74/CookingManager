@@ -10,27 +10,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.bean.Task;
 import model.bean.User;
-import model.bean.Worker;
-import model.bo.TaskBO;
-import model.bo.WorkTimeBO;
+import model.bean.UserTask;
+import model.bo.SchedulerBO;
+import model.bo.UserBO;
 
 /**
- * Servlet implementation class Ad_task
+ * Servlet implementation class Ad_scheduler
  */
-@WebServlet("/Ad_task")
-public class Ad_task extends HttpServlet {
+@WebServlet("/Ad_scheduler")
+public class Ad_scheduler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private TaskBO taskBO;
-    private WorkTimeBO workTimeBO;
+    private UserBO userBO;
+    private SchedulerBO schedulerBO;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Ad_task() {
+    public Ad_scheduler() {
         super();
-        taskBO = new TaskBO();
-        workTimeBO = new WorkTimeBO();
+        userBO = new UserBO();
+        schedulerBO = new SchedulerBO();
     }
 
 	/**
@@ -43,12 +42,23 @@ public class Ad_task extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		if(user == null ) request.getRequestDispatcher("index.jsp").forward(request, response);
-		ArrayList<Task> tasks = taskBO.getTaskList();
-		ArrayList<Worker> workers = workTimeBO.getRegisterList();
-		request.setAttribute("tasks", tasks);
-		request.setAttribute("workers", workers);
+		
 		// Trả lại các thông số mà người dùng đã nhập
-		request.getRequestDispatcher("/WEB-INF/admin/ad-task.jsp").forward(request, response);
+		ArrayList<User> users = userBO.getListUser();
+		String isCreateChecduler = schedulerBO.isCreateChecduler()? "1" : "0";
+		ArrayList<UserTask> userTasks = schedulerBO.getScheduler();
+		String cweek = String.valueOf(schedulerBO.getNextWeek()-1);
+		ArrayList<UserTask> userTasks2= schedulerBO.getListTaskAmount();
+		for(int i=0; i<userTasks2.size(); i++){
+			System.out.println(userTasks2.get(i).getUsername() + " : " + userTasks2.get(i).getTaskAmount());
+		}
+		System.out.println("Current Week: " + cweek);
+		request.setAttribute("users", users);
+		request.setAttribute("isCreateChecduler", isCreateChecduler);
+		request.setAttribute("userTasks", userTasks);
+		request.setAttribute("userTasks2", userTasks2);
+		request.setAttribute("cweek", cweek);
+		request.getRequestDispatcher("/WEB-INF/admin/ad-scheduler.jsp").forward(request, response);
 	}
 
 	/**

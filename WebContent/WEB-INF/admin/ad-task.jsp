@@ -14,7 +14,7 @@
 <script src="libraries/RGraph.common.annotate.js"></script>
 <script src="libraries/RGraph.common.context.js"></script>
 <script src="libraries/RGraph.bar.js"></script>
-<jsp:include page="_bootstrap.jsp" />
+<jsp:include page="../_bootstrap.jsp" />
 
 <title>Cooking Managerment</title>
 <script type="text/javascript">
@@ -26,36 +26,30 @@
 </script>
 </head>
 <body>
-<!------------------------------------------- Menu --------------------------------> 
-<% 
-
-	User user = (User)session.getAttribute("user");
-	if(user != null){
-%>
+<!------------------------------------------- Menu -------------------------------->
+	<%
+		User user = (User) session.getAttribute("user");
+		if (user != null) {
+	%>
 	<nav class="navbar navbar-inverse" style="background-color: #2020df">
-	  <div class="container-fluid" > 
-	    <ul class="nav navbar-nav" >
-	      <li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
-	      <li><a href="Ad_account">Quản lí Tài khoản</a></li> 
-	      <li><a href="Ad_task">Quản lí Công việc</a></li>
-	      <li><a href="Xeplich">Xếp lịch</a></li>
-	    </ul>
-	    <ul class="nav navbar-nav navbar-right">
-	      <li><a href="#"><span class="glyphicon glyphicon-user"></span><%=user.getFullname() %></a></li>
-	      <li><a href="Logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-	    </ul>
-	  </div>
+	<div class="container-fluid">
+		<ul class="nav navbar-nav">
+			<li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+			<li><a href="Ad_account">Quản lí Tài khoản</a></li>
+			<li><a href="Ad_task">Quản lí Công việc</a></li>
+			<li><a href="Ad_scheduler">Xếp lịch</a></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span><%=user.getFullname()%></a></li>
+			<li><a href="Logout"><span
+					class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+		</ul>
+	</div>
 	</nav>
 
 
-<!------------------------------------------- Content --------------------------------> 
+	<!------------------------------------------- Content --------------------------------> 
 <div class="container-fluid" style="min-height: 430px">
- <p style="float: right">
-        <script>
-            document.write('<a href="" target="_blank" onclick="window.open(\'https://www.facebook.com/sharer/sharer.php?u=http://localhost:8080' 
-            		+ location.pathname + '\', null, \'top=50,left=50,width=600,height=368\'); return false"><img src="images/facebook-large.png" width="200" height="43" alt="Share on Facebook" border="0" title="Visit the Cooking Management page" id="facebook_link" /></a>&nbsp;');
-        </script>
-    </p>
   <div class="row content">
   <!------------------------------------------- Left-Menu --------------------------------> 
     <div class="col-sm-3 sidenav">
@@ -158,9 +152,7 @@
 	      	</tr>
 	      	<%} %>
 	      </table>
-	      <form action="Xeplich" method="post">
-	      <input class="btn btn-primary" type="submit" value="Xếp lịch tự động"/>
-	      </form>
+	      
 	      <br><br>
 	      <%} %>
 	    </div>
@@ -168,29 +160,25 @@
 	   <div id="menu3" class="tab-pane fade">
 	      <h3>Thống kê</h3>
 	      <hr>
-	      <div>
-	       <canvas id="cvs" width="800" height="250">[No canvas support]</canvas>
-
+	      <div style="display:block;">
+	       <center><canvas id="cvs1" width="600" height="250">[No canvas support]</canvas></center>
+	
+   
 		    <script>
 		        window.onload = function ()
 		        {
 		            var bar = new RGraph.Bar({
-		                id: 'cvs',
-		                data: [248,243,180,160,120,43],
+		                id:'cvs1',
+		                data: [4,5,3,8,4,9,6,5,3],
 		                options: {
-		                    labels: ['Tam','Huy','Thinh','Quoc','Anh','Quang'],
-		                    annotatable: true,
-		                    annotateLinewidth: 2,
+		                    backgroundGridDashed: true,
+		                    labels: ['Mal', 'Barry', 'Gary', 'Neil', 'Kim', 'Pete', 'Lou', 'Fred', 'Jobe'],
+		                    title: 'A dashed background grid',
 		                    strokestyle: 'rgba(0,0,0,0)',
-		                    contextmenu: [['Clear', function () {RGraph.Clear(bar.canvas); RGraph.ClearAnnotations(bar.canvas); bar.Draw();}]],
-		                    textSize: 14,
-		                    noxaxis: true,
-		                    backgroundGridVlines: false,
-		                    backgroundGridBorder: false,
-		                    gutterLeft: 35,
 		                    textAccessible: true
 		                }
 		            }).draw();
+		    
 		        };
 		    </script>
 			</div>
@@ -201,6 +189,7 @@
     </div>  
     </div>
 </div>
+			
 <%} %>
 <footer class="alert alert-info" >
   <center>Copyright@2016-5S team</center>

@@ -15,10 +15,11 @@ public class WorkTimeDAO extends DatabaseFactory{
 	}
 	public ArrayList<Worker> getRegisterList(){
 		String query = "SELECT user.username, COUNT(worktime.worktimeId) AS numOfFreeTime FROM user LEFT JOIN worktime ON user.username = worktime.username "
-				+ "WHERE user.isAdmin = 0 GROUP BY user.username";
+				+ "WHERE user.isAdmin = 0 AND worktime.week = ? GROUP BY user.username";
 		ArrayList<Worker> workers = new ArrayList<>();
 		try {
 			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, new SchedulerDAO().getNextWeek());
 			System.out.println("Task List: " + preparedStatement.toString());
 			ResultSet rs = preparedStatement.executeQuery();
 			while(rs.next()){

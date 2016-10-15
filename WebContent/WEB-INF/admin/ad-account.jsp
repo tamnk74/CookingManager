@@ -7,31 +7,37 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cooking Managerment</title>
-<jsp:include page="_bootstrap.jsp" />
+<jsp:include page="../_bootstrap.jsp" />
 
 <script type="text/javascript">
 	
 </script>
 </head>
 <body>
-<!------------------------------------------- Menu --------------------------------> 
-	<nav class="navbar navbar-inverse " style="background-color: #2020df">
-	  <div class="container-fluid" > 
-	    <ul class="nav navbar-nav" >
-	      <li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
-	      <li><a href="Ad_account">Quản lí Tài khoản</a></li> 
-	      <li><a href="Ad_task">Quản lí Công việc</a></li>
-	      <li><a href="Xeplich">Xếp lịch</a></li>
-	    </ul>
-	    <ul class="nav navbar-nav navbar-right">
-	      <li><a href="#"><span class="glyphicon glyphicon-user"></span>Nguyen Khac Tam</a></li>
-	      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-	    </ul>
-	  </div>
+	<!------------------------------------------- Menu -------------------------------->
+	<% 
+
+	User user = (User)session.getAttribute("user");
+	if(user != null){
+    %>
+	<nav class="navbar navbar-inverse" style="background-color: #2020df">
+	<div class="container-fluid">
+		<ul class="nav navbar-nav">
+			<li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+			<li><a href="Ad_account">Quản lí Tài khoản</a></li>
+			<li><a href="Ad_task">Quản lí Công việc</a></li>
+			<li><a href="Ad_scheduler">Xếp lịch</a></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span><%=user.getFullname() %></a></li>
+			<li><a href="Logout"><span
+					class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+		</ul>
+	</div>
 	</nav>
 
-<!------------------------------------------- Content --------------------------------> 
-<div class="container-fluid" style="min-height: 430px">
+	<!------------------------------------------- Content -------------------------------->
+	<div class="container-fluid" style="min-height: 430px">
   <div class="row content">
   <!------------------------------------------- Left-Menu --------------------------------> 
     <div class="col-sm-3 sidenav">
@@ -120,7 +126,7 @@
     </div>
   </div>
 </div>
-
+<%} %>
 <footer class="alert alert-info" >
   <center>Copyright@2016-5S team</center>
 </footer>

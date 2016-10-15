@@ -46,7 +46,7 @@ public class Ad_account extends HttpServlet {
 		ArrayList<User> users = userBO.getListUser();
 		request.setAttribute("users", users);
 		// Trả lại các thông số mà người dùng đã nhập
-		request.getRequestDispatcher("/WEB-INF/ad-account.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/admin/ad-account.jsp").forward(request, response);
 	}
 
 	/**

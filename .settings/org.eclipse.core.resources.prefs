@@ -1,9 +1,10 @@
 eclipse.preferences.version=1
 encoding//src/controller/Account.java=UTF-8
 encoding//src/controller/Ad_account.java=UTF-8
+encoding//src/controller/Ad_scheduler.java=UTF-8
 encoding//src/controller/Ad_task.java=UTF-8
 encoding//src/controller/CheckLogin.java=UTF-8
+encoding//src/controller/CreateScheduler.java=UTF-8
 encoding//src/controller/Task.java=UTF-8
 encoding//src/controller/UpdateTask.java=UTF-8
-encoding//src/controller/Xeplich.java=UTF-8
 encoding//src/model/dao/DatabaseFactory.java=UTF-8

@@ -22,7 +22,6 @@ public class TaskDAO extends DatabaseFactory{
 					task.setTaskName(rs.getString("taskName"));
 					task.setTaskAmount(rs.getInt("taskAmount"));
 					tasks.add(task);
-					System.out.println("-->" + task.getTaskId());
 				}
 				preparedStatement.close();
 				return tasks;

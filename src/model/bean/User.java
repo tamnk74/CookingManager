@@ -5,7 +5,16 @@ public class User {
 	private String password;
 	private String fullname;
 	private boolean isAdmin;
+	private int amount;
 	
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
 	public String getPassword() {
 		return password;
 	}
