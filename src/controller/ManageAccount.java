@@ -18,15 +18,15 @@ import model.bo.UserBO;
 /**
  * Servlet implementation class Ad_account
  */
-@WebServlet("/Ad_account")
-public class Ad_account extends HttpServlet {
+@WebServlet("/ManageAccount")
+public class ManageAccount extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private TaskBO taskBO;
     private UserBO userBO;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Ad_account() {
+    public ManageAccount() {
         super();
         taskBO = new TaskBO();
         userBO = new UserBO();
@@ -39,14 +39,19 @@ public class Ad_account extends HttpServlet {
 		
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		
 		// Kiểm tra quyền hạn.
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		if(user == null ) request.getRequestDispatcher("index.jsp").forward(request, response);
+		if(!user.isAdmin()) request.getRequestDispatcher("/WEB-INF/account.jsp").forward(request, response);
+		
+		
 		ArrayList<User> users = userBO.getListUser();
 		request.setAttribute("users", users);
 		// Trả lại các thông số mà người dùng đã nhập
-		request.getRequestDispatcher("/WEB-INF/admin/ad-account.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/admin/account.jsp").forward(request, response);
 	}
 
 	/**

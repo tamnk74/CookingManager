@@ -14,8 +14,8 @@ public class UserDAO extends DatabaseFactory{
 		String query = "select * from user where isAdmin = 0";
 		try {
 			preparedStatement = connection.prepareStatement(query);
-			System.out.println("Task List: " + preparedStatement.toString());
 			ResultSet rs = preparedStatement.executeQuery();
+			System.out.println(preparedStatement.toString());
 			while(rs.next()){
 				User user = new User();
 				user.setUsername(rs.getString("username"));
@@ -39,7 +39,7 @@ public class UserDAO extends DatabaseFactory{
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, username);
 			preparedStatement.setString(2, password);
-			
+			System.out.println(preparedStatement.toString());
 			ResultSet rs = preparedStatement.executeQuery();
 			if(rs.next()){
 				User user = new User();
@@ -53,7 +53,7 @@ public class UserDAO extends DatabaseFactory{
 				preparedStatement.close();
 				return null;
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -65,12 +65,15 @@ public class UserDAO extends DatabaseFactory{
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, user.getFullname());
 			preparedStatement.setString(2, user.getUsername());
-			if(preparedStatement.execute()){
+			System.out.println(preparedStatement.toString());
+			if(preparedStatement.executeUpdate()>0){
 				preparedStatement.close();
+				System.out.println("Success");
 				return true;
 			}
 			else{
 				preparedStatement.close();
+				System.out.println("failed");
 				return false;
 			}
 			
@@ -79,17 +82,20 @@ public class UserDAO extends DatabaseFactory{
 			return false;
 		}
 	}
-	public boolean deleteUser(User user) {
+	public boolean deleteUser(String username) {
 		String query = "DELETE FROM `user` WHERE username = ?";
 		try {
 			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, user.getUsername());
-			if(preparedStatement.execute()){
+			preparedStatement.setString(1, username);
+			System.out.println(preparedStatement.toString());
+			if(preparedStatement.executeUpdate()>0){
 				preparedStatement.close();
+				System.out.println("Success");
 				return true;
 			}
 			else{
 				preparedStatement.close();
+				System.out.println("failed");
 				return false;
 			}
 			
@@ -106,7 +112,33 @@ public class UserDAO extends DatabaseFactory{
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getFullname());
 			preparedStatement.setBoolean(4, user.isAdmin());
-			if(preparedStatement.execute()){
+			System.out.println(preparedStatement.toString());
+			if(preparedStatement.executeUpdate()>0){
+				preparedStatement.close();
+				System.out.println("Success");
+				return true;
+			}
+			else{
+				preparedStatement.close();
+				System.out.println("failed");
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean isValidUser(String username) {
+		String query = "select * from user where username=?";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, username);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			System.out.println(preparedStatement.toString());
+			if(rs.next()){
 				preparedStatement.close();
 				return true;
 			}
@@ -114,8 +146,7 @@ public class UserDAO extends DatabaseFactory{
 				preparedStatement.close();
 				return false;
 			}
-			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}

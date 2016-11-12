@@ -14,7 +14,7 @@ public class TaskDAO extends DatabaseFactory{
 			String query = "select * from task";
 			try {
 				preparedStatement = connection.prepareStatement(query);
-				System.out.println("Task List: " + preparedStatement.toString());
+				System.out.println(preparedStatement.toString());
 				ResultSet rs = preparedStatement.executeQuery();
 				while(rs.next()){
 					Task task = new Task();
@@ -36,6 +36,7 @@ public class TaskDAO extends DatabaseFactory{
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, task.getTaskAmount());
 			preparedStatement.setString(2, task.getTaskId());
+			System.out.println(preparedStatement.toString());
 			if(preparedStatement.execute()){
 				preparedStatement.close();
 				return true;
@@ -55,6 +56,7 @@ public class TaskDAO extends DatabaseFactory{
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, task.getTaskId());
+			System.out.println(preparedStatement.toString());
 			if(preparedStatement.execute()){
 				preparedStatement.close();
 				return true;
@@ -76,6 +78,7 @@ public class TaskDAO extends DatabaseFactory{
 			preparedStatement.setString(1, task.getTaskId());
 			preparedStatement.setString(2, task.getTaskName());
 			preparedStatement.setInt(3, task.getTaskAmount());
+			System.out.println(preparedStatement.toString());
 			if(preparedStatement.execute()){
 				preparedStatement.close();
 				return true;

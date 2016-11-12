@@ -38,13 +38,14 @@ public class CreateScheduler extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		if(user == null ) request.getRequestDispatcher("index.jsp").forward(request, response);
+		if(!user.isAdmin()) request.getRequestDispatcher("/WEB-INF/account.jsp").forward(request, response);
 		
 		// Trả lại các thông số mà người dùng đã nhập
 		int week = schedulerBO.getNextWeek();
 		if(schedulerBO.createScheduler(week)){
 			request.setAttribute("msg", "Tạo lịch thành công!");
 		};
-		request.getRequestDispatcher("Ad_task").forward(request, response);
+		request.getRequestDispatcher("ManageTask").forward(request, response);
 	}
 
 	/**

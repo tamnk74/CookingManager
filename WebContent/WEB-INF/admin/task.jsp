@@ -35,12 +35,12 @@
 	<div class="container-fluid">
 		<ul class="nav navbar-nav">
 			<li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
-			<li><a href="Ad_account">Quản lí Tài khoản</a></li>
-			<li><a href="Ad_task">Quản lí Công việc</a></li>
-			<li><a href="Ad_scheduler">Xếp lịch</a></li>
+			<li><a href="ManageAccount">Quản lí Tài khoản</a></li>
+			<li><a href="ManageTask">Quản lí Công việc</a></li>
+			<li><a href="Scheduler">Xếp lịch</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="#"><span class="glyphicon glyphicon-user"></span><%=user.getFullname()%></a></li>
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span><%=user.getFullname() %></a></li>
 			<li><a href="Logout"><span
 					class="glyphicon glyphicon-log-in"></span> Logout</a></li>
 		</ul>
@@ -57,10 +57,7 @@
     <ul class="nav nav-tabs nav-stacked nav-pills">
 	    <li class="active"><a data-toggle="tab" href="#menu1">Danh sách công việc</a></li>
 	    <li><a data-toggle="tab" href="#menu2">Thông tin Đăng kí</a></li>
-	    <li><a data-toggle="tab" href="#menu3">Thống kê</a></li>
   	</ul>
-     <br>
-      
     </div>
 <!------------------------------------------- Main-content --------------------------------> 
     <div class="col-sm-9">
@@ -104,22 +101,35 @@
 			        <h4 class="modal-title">Edit Task</h4>
 			      </div>
 			      <div class="modal-body">
-			      	<form action="UpdateTask" method="post">
+			      	<form class="form-horizontal" action="UpdateTask" method="post">
 			        <div class="form-group">
-			        	<div class="col-md-3">Task ID</div>
-			        	<input type="text" name="taskId" id="taskId" value="" disable readonly>
+			        	<label class="control-label col-md-3" for="taskId">Task Id:</label>
+			        	<div class="col-md-9">
+				     		<input class="form-control" type="text" name="taskId" id="taskId" value="" disable readonly/>
+				     	</div>
 			        </div>
+			        
 			         <div class="form-group">
-			        	<div class="col-md-3">Task Name</div>
-			        	<input type="text" name="taskName" id="taskName" value="" required>
-			        </div>
-			         <div class="form-group">
-			        	<div class="col-md-3">Task Amount</div>
-			        	<input type="text" name="taskAmount" id="taskAmount" value="" required>
-			        </div>
+			        	<label class="control-label col-md-3" for="taskName">Task Name:</label>
+			        	<div class="col-md-9">
+				     		<input class="form-control" type="text" name="taskName" id="taskName" value="" required/>
+				     	</div>
+			         </div>
+			        
 			        <div class="form-group">
-			        	<div class="col-md-3"></div>
-			        	<input type="submit" value="submit"/>
+			        	<label class="control-label col-md-3" for="username">Task Amount:</label>
+			        	<div class="col-md-9">
+				     		<input class="form-control" type="text" name="taskAmount" id="taskAmount" value="" required/>
+				     	</div>
+			         </div>
+			      
+			        <div class="form-group">
+			        	<div class="col-md-offset-3 col-md-3">
+			        		<button class="btn btn-primary btn-block" type="submit">Submit</button>
+			        	</div>
+			        	<div class="col-md-3">
+			        		<button class="btn btn-primary btn-block" type="reset">Reset</button>
+			        	</div>
 			        </div>
 			        </form>
 			      </div>
@@ -131,6 +141,7 @@
 			  </div>
 			</div>
 	    </div>
+	    <!--                                     Menu 2: thông tin đăng kí                              -->
 	    <div id="menu2" class="tab-pane fade">
 	      <h3>Thông tin đăng kí</h3>
 	      <hr>
@@ -156,34 +167,6 @@
 	      <br><br>
 	      <%} %>
 	    </div>
-	   
-	   <div id="menu3" class="tab-pane fade">
-	      <h3>Thống kê</h3>
-	      <hr>
-	      <div style="display:block;">
-	       <center><canvas id="cvs1" width="600" height="250">[No canvas support]</canvas></center>
-	
-   
-		    <script>
-		        window.onload = function ()
-		        {
-		            var bar = new RGraph.Bar({
-		                id:'cvs1',
-		                data: [4,5,3,8,4,9,6,5,3],
-		                options: {
-		                    backgroundGridDashed: true,
-		                    labels: ['Mal', 'Barry', 'Gary', 'Neil', 'Kim', 'Pete', 'Lou', 'Fred', 'Jobe'],
-		                    title: 'A dashed background grid',
-		                    strokestyle: 'rgba(0,0,0,0)',
-		                    textAccessible: true
-		                }
-		            }).draw();
-		    
-		        };
-		    </script>
-			</div>
-	    </div>
-	   
 	  </div>
      
     </div>  

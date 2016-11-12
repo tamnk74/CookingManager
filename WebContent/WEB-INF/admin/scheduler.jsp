@@ -28,18 +28,19 @@
 	if(user != null){
 %>
 	<nav class="navbar navbar-inverse" style="background-color: #2020df">
-	  <div class="container-fluid" > 
-	    <ul class="nav navbar-nav" >
-	      <li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
-	      <li><a href="Ad_account">Quản lí Tài khoản</a></li> 
-	      <li><a href="Ad_task">Quản lí Công việc</a></li>
-	      <li><a href="Ad_scheduler">Xếp lịch</a></li>
-	    </ul>
-	    <ul class="nav navbar-nav navbar-right">
-	      <li><a href="#"><span class="glyphicon glyphicon-user"></span><%=user.getFullname() %></a></li>
-	      <li><a href="Logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-	    </ul>
-	  </div>
+	<div class="container-fluid">
+		<ul class="nav navbar-nav">
+			<li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+			<li><a href="ManageAccount">Quản lí Tài khoản</a></li>
+			<li><a href="ManageTask">Quản lí Công việc</a></li>
+			<li><a href="Scheduler">Xếp lịch</a></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span><%=user.getFullname() %></a></li>
+			<li><a href="Logout"><span
+					class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+		</ul>
+	</div>
 	</nav>
 
 

@@ -18,15 +18,15 @@ import model.bo.UserBO;
 /**
  * Servlet implementation class Ad_scheduler
  */
-@WebServlet("/Ad_scheduler")
-public class Ad_scheduler extends HttpServlet {
+@WebServlet("/Scheduler")
+public class Scheduler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private UserBO userBO;
     private SchedulerBO schedulerBO;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Ad_scheduler() {
+    public Scheduler() {
         super();
         userBO = new UserBO();
         schedulerBO = new SchedulerBO();
@@ -58,7 +58,7 @@ public class Ad_scheduler extends HttpServlet {
 		request.setAttribute("userTasks", userTasks);
 		request.setAttribute("userTasks2", userTasks2);
 		request.setAttribute("cweek", cweek);
-		request.getRequestDispatcher("/WEB-INF/admin/ad-scheduler.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/admin/scheduler.jsp").forward(request, response);
 	}
 
 	/**

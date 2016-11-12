@@ -47,7 +47,7 @@ public class CheckLogin extends HttpServlet {
 			session.setAttribute("user", user);
 			if(user.isAdmin())	{
 				
-				request.getRequestDispatcher("Ad_task").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/admin/admin.jsp").forward(request, response);
 			}
 			else {
 				request.getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);

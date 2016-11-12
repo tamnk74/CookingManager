@@ -35,10 +35,13 @@ public class UpdateTask extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		
 		// Kiểm tra quyền hạn.
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		if(user == null ) request.getRequestDispatcher("index.jsp").forward(request, response);
+		if(!user.isAdmin()) request.getRequestDispatcher("/WEB-INF/account.jsp").forward(request, response);
 		
 		String taskId = request.getParameter("taskId");
 		String taskName = request.getParameter("taskName");
@@ -47,10 +50,11 @@ public class UpdateTask extends HttpServlet {
 		task.setTaskId(taskId);
 		task.setTaskName(taskName);
 		task.setTaskAmount(taskAmount);
-		taskBO.updateTask(task);
+		if(taskBO.updateTask(task)) request.setAttribute("message", "A task has been updated successfully!");
+		else request.setAttribute("error", "Failed to update this task!");
 		
 		// Trả lại các thông số mà người dùng đã nhập
-		request.getRequestDispatcher("Ad_task").forward(request, response);
+		request.getRequestDispatcher("ManageTask").forward(request, response);
 	}
 
 	/**

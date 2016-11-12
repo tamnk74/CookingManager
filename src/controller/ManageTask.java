@@ -19,15 +19,15 @@ import model.bo.WorkTimeBO;
 /**
  * Servlet implementation class Ad_task
  */
-@WebServlet("/Ad_task")
-public class Ad_task extends HttpServlet {
+@WebServlet("/ManageTask")
+public class ManageTask extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private TaskBO taskBO;
     private WorkTimeBO workTimeBO;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Ad_task() {
+    public ManageTask() {
         super();
         taskBO = new TaskBO();
         workTimeBO = new WorkTimeBO();
@@ -43,12 +43,13 @@ public class Ad_task extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		if(user == null ) request.getRequestDispatcher("index.jsp").forward(request, response);
+		if(!user.isAdmin()) request.getRequestDispatcher("/WEB-INF/account.jsp").forward(request, response);
 		ArrayList<Task> tasks = taskBO.getTaskList();
 		ArrayList<Worker> workers = workTimeBO.getRegisterList();
 		request.setAttribute("tasks", tasks);
 		request.setAttribute("workers", workers);
 		// Trả lại các thông số mà người dùng đã nhập
-		request.getRequestDispatcher("/WEB-INF/admin/ad-task.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/admin/task.jsp").forward(request, response);
 	}
 
 	/**
