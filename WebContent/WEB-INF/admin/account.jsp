@@ -13,12 +13,20 @@
 ArrayList<User> users = (ArrayList<User>)request.getAttribute("users");%>
 <script type="text/javascript">
 	$(document).ready(function(){
+		$(".navbar").css("background-color","#2020df");
+		$(".navbar a").css("color","#ff9900");
+		$(".navbar").css('border-radius', '0px');
+		$(".navbar li").hover(function(){
+        $(this).css("background-color", "#6666cc");
+        }, function(){
+        $(this).css("background-color", "#2020df");
+    	});
 	    $(".edit-user").click(function(){
 	    	$("#editusername").val($(this).closest('tr').children()[1].textContent);
 	    	$("#editfullname").val($(this).closest('tr').children()[2].textContent);
 	    });
 	    
-	    $("#adduser input[name='username']").change(function(){
+	    $("#adduserform input[name='username']").change(function(){
 	    	var username = $(this).val();
 	    	if(username != null){
 		    	if(username.length><%= Const.MAX_LENGTH_USERNAME%>){
@@ -32,16 +40,16 @@ ArrayList<User> users = (ArrayList<User>)request.getAttribute("users");%>
 						},
 						success : function(responseText) {
 							if(responseText == "valid"){
-								$("#adduser .username").removeClass("has-error has-feedback");
-								$("#adduser .username").addClass("has-success has-feedback");
-								$("#adduser .username .col-md-6 span").remove();
-								$("#adduser .username .col-md-6").append("<span class='glyphicon glyphicon-ok form-control-feedback'></span>");
+								$("#adduserform .username").removeClass("has-error has-feedback");
+								$("#adduserform .username").addClass("has-success has-feedback");
+								$("#adduserform .username .col-md-6 span").remove();
+								$("#adduserform .username .col-md-6").append("<span class='glyphicon glyphicon-ok form-control-feedback'></span>");
 							}
 							else{
-								$("#adduser .username").removeClass("has-success has-feedback");
-								$("#adduser .username").addClass("has-error has-feedback");
-								$("#adduser .username .col-md-6 span").remove();
-								$("#adduser .username .col-md-6").append("<span class='glyphicon glyphicon-remove form-control-feedback'></span>");
+								$("#adduserform .username").removeClass("has-success has-feedback");
+								$("#adduserform .username").addClass("has-error has-feedback");
+								$("#adduserform .username .col-md-6 span").remove();
+								$("#adduserform .username .col-md-6").append("<span class='glyphicon glyphicon-remove form-control-feedback'></span>");
 							}
 						}
 					});
@@ -49,64 +57,67 @@ ArrayList<User> users = (ArrayList<User>)request.getAttribute("users");%>
 	    	}
 	    });
 	    
-	    $("#adduser input[name='fullname']").change(function(){
+	    $("#adduserform input[name='fullname']").change(function(){
 	    	var fullname = $(this).val();
 	    	if(fullname != null){
 		    	if(fullname.length><%= Const.MAX_LENGTH_FULLNAME%>){
-		    		$("#adduser .fullname").removeClass("has-success has-feedback");
-					$("#adduser .fullname").addClass("has-error has-feedback");
-					$("#adduser .fullname .col-md-6 span").remove();
-					$("#adduser .fullname .col-md-6").append("<span class='glyphicon glyphicon-remove form-control-feedback'></span>");
+		    		$("#adduserform .fullname").removeClass("has-success has-feedback");
+					$("#adduserform .fullname").addClass("has-error has-feedback");
+					$("#adduserform .fullname .col-md-6 span").remove();
+					$("#adduserform .fullname .col-md-6").append("<span class='glyphicon glyphicon-remove form-control-feedback'></span>");
 		    	}
 		    	else{
-		    		$("#adduser .fullname").removeClass("has-error has-feedback");
-					$("#adduser .fullname").addClass("has-success has-feedback");
-					$("#adduser .fullname .col-md-6 span").remove();
-					$("#adduser .fullname .col-md-6").append("<span class='glyphicon glyphicon-ok form-control-feedback'></span>");
+		    		$("#adduserform .fullname").removeClass("has-error has-feedback");
+					$("#adduserform .fullname").addClass("has-success has-feedback");
+					$("#adduserform .fullname .col-md-6 span").remove();
+					$("#adduserform .fullname .col-md-6").append("<span class='glyphicon glyphicon-ok form-control-feedback'></span>");
 		    	}
 	    	}
 	    });
 	    
-	    $("#adduser input[name='password']").change(function(){
+	    $("#adduserform input[name='password']").change(function(){
 	    	var password = $(this).val();
 	    	if(password != null){
 		    	if(password.length > <%= Const.MAX_LENGTH_PASSWORD%> || password.length<3){
-		    		$("#adduser .password").removeClass("has-success has-feedback");
-					$("#adduser .password").addClass("has-error has-feedback");
-					$("#adduser .password .col-md-6 span").remove();
-					$("#adduser .password .col-md-6").append("<span class='glyphicon glyphicon-remove form-control-feedback'></span>");
+		    		$("#adduserform .password").removeClass("has-success has-feedback");
+					$("#adduserform .password").addClass("has-error has-feedback");
+					$("#adduserform .password .col-md-6 span").remove();
+					$("#adduserform .password .col-md-6").append("<span class='glyphicon glyphicon-remove form-control-feedback'></span>");
 		    	}
 		    	else{
-		    		$("#adduser .password").removeClass("has-error has-feedback");
-					$("#adduser .password").addClass("has-success has-feedback");
-					$("#adduser .password .col-md-6 span").remove();
-					$("#adduser .password .col-md-6").append("<span class='glyphicon glyphicon-ok form-control-feedback'></span>");
+		    		$("#adduserform .password").removeClass("has-error has-feedback");
+					$("#adduserform .password").addClass("has-success has-feedback");
+					$("#adduserform .password .col-md-6 span").remove();
+					$("#adduserform .password .col-md-6").append("<span class='glyphicon glyphicon-ok form-control-feedback'></span>");
 		    	}
 	    	}
 	    });
 	    
-	    $("#adduser input[name='cf_password']").change(function(){
+	    $("#adduserform input[name='cf_password']").change(function(){
 	    	var cf_password = $(this).val();
 	    	if(cf_password != null){
-		    	if(cf_password != $("#adduser input[name='password']").val()){
-		    		$("#adduser .cf_password").removeClass("has-success has-feedback");
-					$("#adduser .cf_password").addClass("has-error has-feedback");
-					$("#adduser .cf_password .col-md-6 span").remove();
-					$("#adduser .cf_password .col-md-6").append("<span class='glyphicon glyphicon-remove form-control-feedback'></span>");
+		    	if(cf_password != $("#adduserform input[name='password']").val()){
+		    		$("#adduserform .cf_password").removeClass("has-success has-feedback");
+					$("#adduserform .cf_password").addClass("has-error has-feedback");
+					$("#adduserform .cf_password .col-md-6 span").remove();
+					$("#adduserform .cf_password .col-md-6").append("<span class='glyphicon glyphicon-remove form-control-feedback'></span>");
 		    	}
 		    	else{
-		    		$("#adduser .cf_password").removeClass("has-error has-feedback");
-					$("#adduser .cf_password").addClass("has-success has-feedback");
-					$("#adduser .cf_password .col-md-6 span").remove();
-					$("#adduser .cf_password .col-md-6").append("<span class='glyphicon glyphicon-ok form-control-feedback'></span>");
+		    		$("#adduserform .cf_password").removeClass("has-error has-feedback");
+					$("#adduserform .cf_password").addClass("has-success has-feedback");
+					$("#adduserform .cf_password .col-md-6 span").remove();
+					$("#adduserform .cf_password .col-md-6").append("<span class='glyphicon glyphicon-ok form-control-feedback'></span>");
 		    	}
 	    	}
 	    });
-	    
+		$("#create").click(function(){
+			if($("#adduserform .username").hasClass("has-success")
+ 					&& $("#adduserform .fullname").hasClass("has-success")
+ 					&& $("#adduserform .password").hasClass("has-success")
+ 					&& $("#adduserform .cf_password").hasClass("has-success")) 
+				$("#adduserform").submit();
+	    });
 	});
-	function validateForm(){
-		
-	}
 </script>
 </head>
 <body>
@@ -116,7 +127,7 @@ ArrayList<User> users = (ArrayList<User>)request.getAttribute("users");%>
 	User user = (User)session.getAttribute("user");
 	if(user != null){
     %>
-	<nav class="navbar navbar-inverse" style="background-color: #2020df">
+	<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<ul class="nav navbar-nav">
 			<li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
@@ -152,14 +163,12 @@ ArrayList<User> users = (ArrayList<User>)request.getAttribute("users");%>
 	  <%= message %>
 	</div>
   	<%}
-  	message = null;
   	if(error != null ){
   	  	%>
   	  	<div class="alert alert-danger">
   		  <%= error %>
   		</div>
   	  	<%}
-  	error = null;
   	%>
     </div>
 <!------------------------------------------- Main-content --------------------------------> 
@@ -167,7 +176,7 @@ ArrayList<User> users = (ArrayList<User>)request.getAttribute("users");%>
       <div class="tab-content">
 	    <div id="menu1" class="tab-pane fade in active">
 	      <h3>Tạo tài khoản</h3>
-	      <form class="form-horizontal" id="adduser" action="AddAccount" method="post">
+	      <form class="form-horizontal" id="adduserform" action="AddAccount" method="post" >
 		     	<div class="form-group">
 			     	<div class="col-md-offset-2 col-md-6">
 			     	<center><img src="images/avatar.png" class="img-circle" alt="Avartar" width="150" height="100"></center>
@@ -206,7 +215,7 @@ ArrayList<User> users = (ArrayList<User>)request.getAttribute("users");%>
 		     	</div>
 		     	<div class="form-group">
 			     	<div class="col-md-offset-2 col-md-2">
-			     		<input class="btn btn-primary btn-block" type="submit" value="Submit" onclick="validateForm()"/>
+			     		<input class="btn btn-primary btn-block" type="button" value="Submit" id="create"/>
 			     	</div>
 			     </div>
 	     	</form>	
@@ -264,7 +273,7 @@ ArrayList<User> users = (ArrayList<User>)request.getAttribute("users");%>
 					  </div>
 					  <div class="form-group">
 					    <div class="col-sm-offset-3 col-sm-3">
-					      <button class="btn btn-primary btn-block" type="submit" id="submit">Submit</button>
+					      <button class="btn btn-primary btn-block" type="submit" id="update">Submit</button>
 					    </div>
 					  </div>
 					</form>

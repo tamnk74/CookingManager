@@ -19,6 +19,20 @@
 <jsp:include page="../_bootstrap.jsp" />
 
 <title>Cooking Managerment</title>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".navbar").css("background-color","#2020df");
+		$(".navbar").css('border-radius', '0px');
+		$(".navbar a").css("color","#ff9900");
+		$(".navbar li").hover(function(){
+        $(this).css("background-color", "#6666cc");
+        }, function(){
+        $(this).css("background-color", "#2020df");
+    	});
+	});
+</script>
+
 </head>
 <body>
 <!------------------------------------------- Menu --------------------------------> 
@@ -27,7 +41,7 @@
 	User user = (User)session.getAttribute("user");
 	if(user != null){
 %>
-	<nav class="navbar navbar-inverse" style="background-color: #2020df">
+	<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<ul class="nav navbar-nav">
 			<li><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>

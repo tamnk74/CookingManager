@@ -42,7 +42,7 @@
 	    </ul>
 	    <ul class="nav navbar-nav navbar-right">
 	      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Nguyen Khac Tam</a></li>
-	      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Log out</a></li>
+	      <li><a href="Logout"><span class="glyphicon glyphicon-log-in"></span> Log out</a></li>
 	    </ul>
 	  </div>
 	</nav>

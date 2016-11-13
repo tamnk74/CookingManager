@@ -45,7 +45,7 @@ padding-top: 1px;
 	    </ul>
 	    <ul class="nav navbar-nav navbar-right">
 	      <li><a href="#"><span class="glyphicon glyphicon-user"></span>Nguyen Khac Tam</a></li>
-	      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+	      <li><a href="Logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
 	    </ul>
 	  </div>
 	</nav>
@@ -61,7 +61,6 @@ padding-top: 1px;
 	    <li><a data-toggle="tab" href="#menu2">Thông tin Tài khoản</a></li>
   	</ul>
      <br>
-      
     </div>
 <!------------------------------------------- Main-content --------------------------------> 
     <div class="col-sm-9">
